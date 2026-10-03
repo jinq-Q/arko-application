@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>공연 관람 신청</title>
+  <style>
+    *{box-sizing:border-box} body{margin:0;background:#f7f7f5;color:#222;font-family:Arial,"Noto Sans KR",sans-serif}
+    .wrap{max-width:980px;margin:40px auto;padding:0 20px 60px}.card{background:#fff;border:1px solid #e6e6e2;border-radius:10px;padding:28px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    h1{font-size:28px;margin:0 0 8px}.sub{color:#666;margin-bottom:28px}.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{margin-bottom:16px}
+    label{display:block;font-size:14px;font-weight:700;margin-bottom:7px} select,input,button{width:100%;font:inherit} select,input{padding:12px 13px;border:1px solid #d8d8d3;border-radius:6px;background:#fff}
+    button{padding:12px 14px;border:0;border-radius:6px;background:#222;color:#fff;cursor:pointer;font-weight:700}.ghost{background:#fff;color:#222;border:1px solid #cfcfca}.danger{background:#8d2f2f}.muted{color:#777;font-size:13px}
+    .hidden{display:none}.toolbar{display:flex;gap:8px;justify-content:space-between;align-items:center;margin:26px 0 12px}.toolbar h2{margin:0;font-size:19px}
+    table{width:100%;border-collapse:collapse;background:#fff} th,td{border-top:1px solid #ecece8;padding:13px 10px;text-align:left;vertical-align:middle;font-size:14px} th{background:#fafaf8;color:#555;font-size:12px;letter-spacing:.02em}
+    .status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:12px;font-weight:700}.pending{background:#fff4cc}.done{background:#def3e5}.closed{background:#f4dddd}
+    .notice{padding:14px 16px;background:#fafaf8;border:1px solid #e6e6e2;border-radius:7px;margin:14px 0}.split{display:grid;grid-template-columns:1.3fr .7fr;gap:18px}
+    .topnav{display:flex;justify-content:flex-end;margin-bottom:10px}.linkbtn{width:auto;background:transparent;color:#555;padding:6px 0;text-decoration:underline}.smallbtn{width:auto;padding:8px 10px;font-size:12px}
+    @media(max-width:760px){.row,.split{grid-template-columns:1fr}.wrap{margin-top:20px;padding:0 12px 40px}.card{padding:20px}table{display:block;overflow-x:auto;white-space:nowrap}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topnav"><button class="linkbtn" id="adminToggle">관리자 화면</button></div>
+
+  <section id="appView" class="card">
+    <h1>공연 관람 신청</h1>
+    <div class="sub">아르코예술극장 · 대학로예술극장</div>
+
+    <div id="loginBox">
+      <div class="row">
+        <div class="field"><label>이름</label><select id="personSelect"></select></div>
+        <div class="field"><label>휴대전화 뒤 4자리</label><input id="pinInput" inputmode="numeric" maxlength="4" placeholder="예: 1234" /></div>
+      </div>
+      <button id="loginBtn">내 신청 페이지 열기</button>
+      <div class="muted" style="margin-top:8px">테스트용: 김작가 1234 / 이드라마 5678</div>
+    </div>
+
+    <div id="memberArea" class="hidden">
+      <div class="notice"><strong id="welcomeName"></strong>님의 신청 페이지입니다. 제출 후에는 직접 수정할 수 없으며, 관리자가 ‘마감 · 다른 일정 선택 필요’로 변경한 경우에만 다시 신청할 수 있습니다.</div>
+
+      <div class="toolbar"><h2>신청 가능한 공연</h2><button class="ghost smallbtn" id="logoutBtn">다른 사람으로 전환</button></div>
+      <div style="overflow-x:auto"><table><thead><tr><th>공연명</th><th>전체 일정</th><th>공연장</th><th>희망 날짜</th><th>희망 시간</th><th></th></tr></thead><tbody id="showRows"></tbody></table></div>
+
+      <div class="toolbar"><h2>내 신청내역</h2></div>
+      <div style="overflow-x:auto"><table><thead><tr><th>공연명</th><th>희망 관람일시</th><th>상태</th><th>관리자 안내</th></tr></thead><tbody id="myRows"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="adminView" class="card hidden">
+    <h1>관리자</h1><div class="sub">신청 현황 확인 및 상태 변경</div>
+    <div class="notice">프로토타입에서는 별도 관리자 인증을 생략했습니다. 실제 배포 시 관리자 비밀번호 또는 로그인 기능을 추가하면 됩니다.</div>
+    <div class="toolbar"><h2>신청 현황</h2><button class="ghost smallbtn" id="backBtn">신청자 화면</button></div>
+    <div style="overflow-x:auto"><table><thead><tr><th>신청자</th><th>구분</th><th>공연</th><th>희망 관람일시</th><th>상태</th><th>안내</th><th>관리</th></tr></thead><tbody id="adminRows"></tbody></table></div>
+  </section>
+</div>
+
+<script>
+const people=[
+ {id:'p1',name:'김작가',role:'작가',pin:'1234'},
+ {id:'p2',name:'이드라마',role:'드라마투르그',pin:'5678'},
+ {id:'p3',name:'박작가',role:'작가',pin:'1111'},
+ {id:'p4',name:'최드라마',role:'드라마투르그',pin:'2222'}
+];
+const shows=[
+ {id:'s1',title:'봄의 문장',start:'2026-09-10',end:'2026-09-14',venue:'아르코예술극장 대극장'},
+ {id:'s2',title:'낯선 오후',start:'2026-09-18',end:'2026-09-21',venue:'대학로예술극장 소극장'},
+ {id:'s3',title:'검은 새벽',start:'2026-09-25',end:'2026-09-29',venue:'아르코예술극장 소극장'}
+];
+let currentPerson=null;
+let applications=JSON.parse(localStorage.getItem('arkoApplications')||'[]');
+const save=()=>localStorage.setItem('arkoApplications',JSON.stringify(applications));
+const fmt=d=>d.replaceAll('-','.');
+const statusLabel=s=>s==='pending'?'신청중':s==='done'?'신청완료':'마감 · 다른 일정 선택 필요';
+const statusClass=s=>s==='pending'?'pending':s==='done'?'done':'closed';
+
+function initPeople(){personSelect.innerHTML='<option value="">이름을 선택해주세요</option>'+people.map(p=>`<option value="${p.id}">${p.name} · ${p.role}</option>`).join('')}
+function login(){const p=people.find(x=>x.id===personSelect.value); if(!p||pinInput.value!==p.pin){alert('이름 또는 휴대전화 뒤 4자리를 확인해주세요.');return;} currentPerson=p; loginBox.classList.add('hidden');memberArea.classList.remove('hidden');welcomeName.textContent=p.name;renderMember();}
+function renderMember(){
+ showRows.innerHTML=shows.map(s=>{const ex=applications.find(a=>a.personId===currentPerson.id&&a.showId===s.id&&a.status!=='closed'); const closed=applications.find(a=>a.personId===currentPerson.id&&a.showId===s.id&&a.status==='closed'); const disabled=!!ex; return `<tr><td><strong>${s.title}</strong></td><td>${fmt(s.start)} ~ ${fmt(s.end)}</td><td>${s.venue}</td><td><input type="date" id="date-${s.id}" min="${s.start}" max="${s.end}" ${disabled?'disabled':''}></td><td><input type="time" id="time-${s.id}" ${disabled?'disabled':''}></td><td><button class="smallbtn" onclick="applyShow('${s.id}')" ${disabled?'disabled style="opacity:.4"':''}>${closed?'다시 신청':'신청'}</button></td></tr>`}).join('');
+ const mine=applications.filter(a=>a.personId===currentPerson.id).slice().reverse();
+ myRows.innerHTML=mine.length?mine.map(a=>{const s=shows.find(x=>x.id===a.showId);return `<tr><td>${s.title}</td><td>${fmt(a.date)} ${a.time}</td><td><span class="status ${statusClass(a.status)}">${statusLabel(a.status)}</span></td><td>${a.note||'-'}</td></tr>`}).join(''):'<tr><td colspan="4" class="muted">아직 신청내역이 없습니다.</td></tr>';
+}
+function applyShow(showId){const s=shows.find(x=>x.id===showId),date=document.getElementById('date-'+showId).value,time=document.getElementById('time-'+showId).value;if(!date||!time){alert('희망 관람 날짜와 시간을 입력해주세요.');return;} if(date<s.start||date>s.end){alert('공연 전체 일정 안에서 날짜를 선택해주세요.');return;} const old=applications.find(a=>a.personId===currentPerson.id&&a.showId===showId&&a.status==='closed'); if(old){old.replaced=true;} applications.push({id:'a'+Date.now(),personId:currentPerson.id,showId,date,time,status:'pending',note:'',createdAt:new Date().toISOString()});save();renderMember();alert('신청이 접수되었습니다.');}
+function renderAdmin(){const rows=applications.filter(a=>!a.replaced).slice().reverse();adminRows.innerHTML=rows.length?rows.map(a=>{const p=people.find(x=>x.id===a.personId),s=shows.find(x=>x.id===a.showId);return `<tr><td>${p.name}</td><td>${p.role}</td><td>${s.title}</td><td>${fmt(a.date)} ${a.time}</td><td><span class="status ${statusClass(a.status)}">${statusLabel(a.status)}</span></td><td><input id="note-${a.id}" value="${(a.note||'').replaceAll('"','&quot;')}" placeholder="선택 입력"></td><td><div style="display:flex;gap:6px"><button class="smallbtn" onclick="setStatus('${a.id}','done')">신청완료</button><button class="smallbtn danger" onclick="setStatus('${a.id}','closed')">마감</button></div></td></tr>`}).join(''):'<tr><td colspan="7" class="muted">신청 내역이 없습니다.</td></tr>'}
+function setStatus(id,status){const a=applications.find(x=>x.id===id);a.status=status;a.note=document.getElementById('note-'+id).value;save();renderAdmin();if(currentPerson)renderMember();}
+adminToggle.onclick=()=>{appView.classList.add('hidden');adminView.classList.remove('hidden');renderAdmin()};
+backBtn.onclick=()=>{adminView.classList.add('hidden');appView.classList.remove('hidden')};
+loginBtn.onclick=login;logoutBtn.onclick=()=>{currentPerson=null;memberArea.classList.add('hidden');loginBox.classList.remove('hidden');pinInput.value=''};
+initPeople();
+</script>
+</body>
+</html>
