@@ -114,36 +114,73 @@
       color:#777
     }
 
+    @media(max-width:760px){
+      .row{grid-template-columns:1fr}
+      .wrap{margin-top:20px;padding:0 12px 40px}
+      .card{padding:20px}
+      table{display:block;overflow-x:auto;white-space:nowrap}
+    }
+
+    /* 운영용 UI 보강 */
+
     .page-top{
       display:flex;
       justify-content:flex-end;
       align-items:center;
       margin-bottom:10px
     }
+
+    .admin-controls{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin:14px 0
+    }
+
+    .admin-controls select{
+      width:auto;
+      min-width:170px;
+    }
+
+    .admin-controls button{
+      width:auto;
+    }
+
     .admin-table-wrap{
       overflow-x:auto;
       border:1px solid #ecece8;
       border-radius:8px
     }
+
     .admin-table{
       min-width:1180px
     }
+
     .admin-table th{
       position:sticky;
       top:0;
       z-index:1
     }
+
     .admin-table select,
     .admin-table input{
       min-width:140px;
       padding:9px 10px
     }
-    .admin-table .admin-note{min-width:210px}
-    .admin-table .save-btn{white-space:nowrap}
+
+    .admin-table .admin-note{
+      min-width:210px
+    }
+
+    .admin-table .save-btn{
+      white-space:nowrap
+    }
 
     .reapply{
       background:#fff7f7
     }
+
     .reapply .status{
       font-weight:800
     }
@@ -158,7 +195,10 @@
       padding:20px;
       z-index:1000
     }
-    .modal-backdrop.hidden{display:none}
+
+    .modal-backdrop.hidden{
+      display:none
+    }
 
     .modal{
       width:min(440px,100%);
@@ -168,8 +208,14 @@
       padding:24px;
       box-shadow:0 18px 60px rgba(0,0,0,.18)
     }
-    .modal h2{margin:0 0 8px}
-    .modal .sub{margin-bottom:20px}
+
+    .modal h2{
+      margin:0 0 8px
+    }
+
+    .modal .sub{
+      margin-bottom:20px
+    }
 
     .modal-actions{
       display:flex;
@@ -177,7 +223,10 @@
       justify-content:flex-end;
       margin-top:6px
     }
-    .modal-actions button{width:auto}
+
+    .modal-actions button{
+      width:auto
+    }
 
     .error-text{
       min-height:18px;
@@ -187,11 +236,6 @@
     }
 
     @media(max-width:760px){
-      .row{grid-template-columns:1fr}
-      .wrap{margin-top:20px;padding:0 12px 40px}
-      .card{padding:20px}
-      table{display:block;overflow-x:auto;white-space:nowrap}
-
       .toolbar{align-items:flex-start}
       .toolbar h2{font-size:18px}
       .admin-table{min-width:1050px}
@@ -201,6 +245,7 @@
       th,td{padding:11px 8px}
       .notice{line-height:1.55}
     }
+
   </style>
 </head>
 
@@ -229,6 +274,7 @@
       <div class="row">
 
         <div class="field">
+
           <label>이름</label>
 
           <select id="personSelect">
@@ -236,10 +282,15 @@
               불러오는 중...
             </option>
           </select>
+
         </div>
 
+
         <div class="field">
-          <label>휴대전화 뒤 4자리</label>
+
+          <label>
+            휴대전화 뒤 4자리
+          </label>
 
           <input
             id="pinInput"
@@ -248,13 +299,16 @@
             maxlength="4"
             autocomplete="off"
             placeholder="휴대전화 뒤 4자리">
+
         </div>
 
       </div>
 
+
       <button id="loginBtn">
         내 신청 페이지 열기
       </button>
+
 
       <div
         id="loginMessage"
@@ -266,14 +320,19 @@
 
 
     <!-- 신청자 화면 -->
+
     <div id="memberArea" class="hidden">
 
       <div class="notice">
+
         <strong id="welcomeName"></strong>님의 신청 페이지입니다.
+
         제출한 신청은 직접 수정할 수 없습니다.
+
         관리자가
         <strong>마감 · 다른 일정 선택 필요</strong>로
         변경한 경우 새로운 일정으로 다시 신청할 수 있습니다.
+
       </div>
 
 
@@ -297,22 +356,33 @@
         <table>
 
           <thead>
+
             <tr>
+
               <th>공연명</th>
               <th>전체 일정</th>
               <th>공연장</th>
               <th>희망 날짜</th>
               <th>희망 시간</th>
               <th></th>
+
             </tr>
+
           </thead>
+
 
           <tbody id="showRows">
 
             <tr>
-              <td colspan="6" class="loading">
+
+              <td
+                colspan="6"
+                class="loading">
+
                 공연을 불러오는 중입니다.
+
               </td>
+
             </tr>
 
           </tbody>
@@ -336,16 +406,22 @@
         <table>
 
           <thead>
+
             <tr>
+
               <th>공연명</th>
               <th>공연장</th>
               <th>희망 관람일시</th>
               <th>상태</th>
               <th>관리자 안내</th>
+
             </tr>
+
           </thead>
 
-          <tbody id="myRows"></tbody>
+
+          <tbody id="myRows">
+          </tbody>
 
         </table>
 
@@ -355,6 +431,7 @@
 
 
     <!-- 관리자 화면 -->
+
     <div id="adminArea" class="hidden">
 
       <div class="toolbar">
@@ -366,21 +443,64 @@
         <button
           id="adminLogoutBtn"
           class="ghost smallbtn">
+
           관리자 로그아웃
+
         </button>
 
       </div>
 
+
       <div class="notice">
+
         전체 신청자의 공연 관람 신청 현황입니다.
+
       </div>
+
+
+      <div class="admin-controls">
+
+        <select id="adminSort">
+
+          <option value="created_desc">
+            최신 신청순
+          </option>
+
+          <option value="date_asc">
+            관람일 빠른순
+          </option>
+
+          <option value="name_asc">
+            신청자 이름순
+          </option>
+
+          <option value="status">
+            상태순
+          </option>
+
+        </select>
+
+
+        <button
+          id="downloadCsvBtn"
+          class="ghost smallbtn"
+          type="button">
+
+          CSV 다운로드
+
+        </button>
+
+      </div>
+
 
       <div class="admin-table-wrap">
 
         <table class="admin-table">
 
           <thead>
+
             <tr>
+
               <th>신청자</th>
               <th>구분</th>
               <th>공연명</th>
@@ -389,15 +509,24 @@
               <th>상태</th>
               <th>관리자 안내</th>
               <th>관리</th>
+
             </tr>
+
           </thead>
+
 
           <tbody id="adminRows">
 
             <tr>
-              <td colspan="8" class="loading">
+
+              <td
+                colspan="8"
+                class="loading">
+
                 신청 현황을 불러오는 중입니다.
+
               </td>
+
             </tr>
 
           </tbody>
@@ -414,6 +543,7 @@
 
 
 <!-- 관리자 로그인 창 -->
+
 <div
   id="adminModal"
   class="modal-backdrop hidden"
@@ -425,13 +555,18 @@
     aria-modal="true"
     aria-labelledby="adminModalTitle">
 
+
     <h2 id="adminModalTitle">
       관리자 로그인
     </h2>
 
+
     <div class="sub">
+
       등록된 관리자 계정으로 로그인하세요.
+
     </div>
+
 
     <div class="field">
 
@@ -447,6 +582,7 @@
 
     </div>
 
+
     <div class="field">
 
       <label for="adminPassword">
@@ -461,10 +597,12 @@
 
     </div>
 
+
     <div
       id="adminLoginError"
       class="error-text">
     </div>
+
 
     <div class="modal-actions">
 
@@ -472,13 +610,18 @@
         id="adminCancelBtn"
         class="ghost"
         type="button">
+
         취소
+
       </button>
+
 
       <button
         id="adminSubmitBtn"
         type="button">
+
         로그인
+
       </button>
 
     </div>
@@ -486,6 +629,7 @@
   </div>
 
 </div>
+
 
 
 <script>
@@ -497,8 +641,10 @@
 const SUPABASE_URL =
   "https://ppxgfqkikdvwkmajkayi.supabase.co";
 
+
 const SUPABASE_KEY =
   "sb_publishable_YSpS83sGG6QY-a-8hurRVQ_2KD1hSiZ";
+
 
 const db =
   window.supabase.createClient(
@@ -512,9 +658,14 @@ const db =
 ===================================================== */
 
 let currentPerson = null;
+
 let currentPin = "";
+
 let performances = [];
+
 let applications = [];
+
+let adminApplications = [];
 
 
 /* =====================================================
@@ -522,64 +673,135 @@ let applications = [];
 ===================================================== */
 
 const personSelect =
-  document.getElementById("personSelect");
+  document.getElementById(
+    "personSelect"
+  );
+
 
 const pinInput =
-  document.getElementById("pinInput");
+  document.getElementById(
+    "pinInput"
+  );
+
 
 const loginBtn =
-  document.getElementById("loginBtn");
+  document.getElementById(
+    "loginBtn"
+  );
+
 
 const loginBox =
-  document.getElementById("loginBox");
+  document.getElementById(
+    "loginBox"
+  );
+
 
 const memberArea =
-  document.getElementById("memberArea");
+  document.getElementById(
+    "memberArea"
+  );
+
 
 const welcomeName =
-  document.getElementById("welcomeName");
+  document.getElementById(
+    "welcomeName"
+  );
+
 
 const logoutBtn =
-  document.getElementById("logoutBtn");
+  document.getElementById(
+    "logoutBtn"
+  );
+
 
 const showRows =
-  document.getElementById("showRows");
+  document.getElementById(
+    "showRows"
+  );
+
 
 const myRows =
-  document.getElementById("myRows");
+  document.getElementById(
+    "myRows"
+  );
+
 
 const loginMessage =
-  document.getElementById("loginMessage");
+  document.getElementById(
+    "loginMessage"
+  );
+
 
 const adminLoginBtn =
-  document.getElementById("adminLoginBtn");
+  document.getElementById(
+    "adminLoginBtn"
+  );
+
 
 const adminArea =
-  document.getElementById("adminArea");
+  document.getElementById(
+    "adminArea"
+  );
+
 
 const adminRows =
-  document.getElementById("adminRows");
+  document.getElementById(
+    "adminRows"
+  );
+
 
 const adminLogoutBtn =
-  document.getElementById("adminLogoutBtn");
+  document.getElementById(
+    "adminLogoutBtn"
+  );
+
 
 const adminModal =
-  document.getElementById("adminModal");
+  document.getElementById(
+    "adminModal"
+  );
+
 
 const adminEmail =
-  document.getElementById("adminEmail");
+  document.getElementById(
+    "adminEmail"
+  );
+
 
 const adminPassword =
-  document.getElementById("adminPassword");
+  document.getElementById(
+    "adminPassword"
+  );
+
 
 const adminLoginError =
-  document.getElementById("adminLoginError");
+  document.getElementById(
+    "adminLoginError"
+  );
+
 
 const adminCancelBtn =
-  document.getElementById("adminCancelBtn");
+  document.getElementById(
+    "adminCancelBtn"
+  );
+
 
 const adminSubmitBtn =
-  document.getElementById("adminSubmitBtn");
+  document.getElementById(
+    "adminSubmitBtn"
+  );
+
+
+const adminSort =
+  document.getElementById(
+    "adminSort"
+  );
+
+
+const downloadCsvBtn =
+  document.getElementById(
+    "downloadCsvBtn"
+  );
 
 
 /* =====================================================
@@ -591,18 +813,27 @@ function fmt(date){
   if(!date)
     return "-";
 
-  return date.replaceAll("-",".");
+  return date.replaceAll(
+    "-",
+    "."
+  );
 
 }
 
 
 function statusLabel(status){
 
-  if(status === "신청완료")
+  if(
+    status === "신청완료"
+  )
     return "신청완료";
 
-  if(status === "마감")
+
+  if(
+    status === "마감"
+  )
     return "마감 · 다른 일정 선택 필요";
+
 
   return "신청중";
 
@@ -611,11 +842,17 @@ function statusLabel(status){
 
 function statusClass(status){
 
-  if(status === "신청완료")
+  if(
+    status === "신청완료"
+  )
     return "done";
 
-  if(status === "마감")
+
+  if(
+    status === "마감"
+  )
     return "closed";
+
 
   return "pending";
 
@@ -628,34 +865,44 @@ function statusClass(status){
 
 async function loadPeople(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await db.rpc(
       "get_participant_names"
     );
 
+
   if(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     personSelect.innerHTML =
       `<option value="">
         이름을 불러오지 못했습니다
       </option>`;
 
+
     return;
 
   }
+
 
   personSelect.innerHTML =
     `<option value="">
       이름을 선택해주세요
     </option>` +
 
-    data.map(person =>
+    data.map(
+      person =>
 
-      `<option value="${person.id}">
-        ${person.name} · ${person.role}
-      </option>`
+        `<option value="${person.id}">
+          ${person.name} · ${person.role}
+        </option>`
 
     ).join("");
 
@@ -663,13 +910,16 @@ async function loadPeople(){
 
 
 /* =====================================================
-   신청자 로그인
+   로그인
 ===================================================== */
 
 async function login(){
 
   const participantId =
-    Number(personSelect.value);
+    Number(
+      personSelect.value
+    );
+
 
   const pin =
     pinInput.value.trim();
@@ -689,12 +939,18 @@ async function login(){
   }
 
 
-  loginBtn.disabled = true;
+  loginBtn.disabled =
+    true;
+
+
   loginBtn.textContent =
     "확인 중...";
 
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await db.rpc(
       "verify_participant",
       {
@@ -707,18 +963,25 @@ async function login(){
     );
 
 
-  loginBtn.disabled = false;
+  loginBtn.disabled =
+    false;
+
+
   loginBtn.textContent =
     "내 신청 페이지 열기";
 
 
   if(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     alert(
       "로그인 확인 중 오류가 발생했습니다."
     );
+
 
     return;
 
@@ -734,6 +997,7 @@ async function login(){
       "이름 또는 휴대전화 뒤 4자리가 맞지 않습니다."
     );
 
+
     return;
 
   }
@@ -742,6 +1006,7 @@ async function login(){
   currentPerson =
     data[0];
 
+
   currentPin =
     pin;
 
@@ -749,6 +1014,7 @@ async function login(){
   loginBox.classList.add(
     "hidden"
   );
+
 
   memberArea.classList.remove(
     "hidden"
@@ -792,12 +1058,14 @@ async function loadMemberData(){
       performanceResult.error
     );
 
+
     showRows.innerHTML =
       `<tr>
         <td colspan="6">
           공연 정보를 불러오지 못했습니다.
         </td>
       </tr>`;
+
 
     return;
 
@@ -829,9 +1097,11 @@ async function loadMemberData(){
       applicationResult.error
     );
 
+
     alert(
       "신청내역을 불러오지 못했습니다."
     );
+
 
     return;
 
@@ -843,6 +1113,7 @@ async function loadMemberData(){
 
 
   renderPerformances();
+
   renderApplications();
 
 }
@@ -865,6 +1136,7 @@ function renderPerformances(){
         </td>
       </tr>`;
 
+
     return;
 
   }
@@ -874,34 +1146,45 @@ function renderPerformances(){
     performances.map(
       show => {
 
+
         const existing =
           applications.find(
             app =>
+
               Number(
                 app.performance_id
               ) ===
               Number(
                 show.id
               ) &&
-              app.status !== "마감"
+
+              app.status !==
+                "마감"
+
           );
 
 
         const closed =
           applications.some(
             app =>
+
               Number(
                 app.performance_id
               ) ===
               Number(
                 show.id
               ) &&
-              app.status === "마감"
+
+              app.status ===
+                "마감"
+
           );
 
 
         const disabled =
-          Boolean(existing);
+          Boolean(
+            existing
+          );
 
 
         return `
@@ -909,20 +1192,35 @@ function renderPerformances(){
           <tr>
 
             <td>
+
               <strong>
                 ${show.title}
               </strong>
+
             </td>
 
+
             <td>
-              ${fmt(show.start_date)}
+
+              ${fmt(
+                show.start_date
+              )}
+
               ~
-              ${fmt(show.end_date)}
+
+              ${fmt(
+                show.end_date
+              )}
+
             </td>
 
+
             <td>
+
               ${show.venue}
+
             </td>
+
 
             <td>
 
@@ -931,31 +1229,40 @@ function renderPerformances(){
                 id="date-${show.id}"
                 min="${show.start_date}"
                 max="${show.end_date}"
-                ${disabled
-                  ? "disabled"
-                  : ""}>
+                ${
+                  disabled
+                    ? "disabled"
+                    : ""
+                }>
 
             </td>
+
 
             <td>
 
               <input
                 type="time"
                 id="time-${show.id}"
-                ${disabled
-                  ? "disabled"
-                  : ""}>
+                ${
+                  disabled
+                    ? "disabled"
+                    : ""
+                }>
 
             </td>
+
 
             <td>
 
               <button
                 class="smallbtn"
-                ${disabled
-                  ? "disabled"
-                  : ""}
+                ${
+                  disabled
+                    ? "disabled"
+                    : ""
+                }
                 onclick="submitApplication(${show.id})">
+
 
                 ${
                   disabled
@@ -964,6 +1271,7 @@ function renderPerformances(){
                       ? "다시 신청"
                       : "신청"
                 }
+
 
               </button>
 
@@ -974,6 +1282,7 @@ function renderPerformances(){
         `;
 
       }
+
     ).join("");
 
 }
@@ -990,8 +1299,15 @@ async function submitApplication(
   const show =
     performances.find(
       item =>
-        Number(item.id) ===
-        Number(performanceId)
+
+        Number(
+          item.id
+        ) ===
+
+        Number(
+          performanceId
+        )
+
     );
 
 
@@ -1020,6 +1336,7 @@ async function submitApplication(
       "희망 관람 날짜와 시간을 선택해주세요."
     );
 
+
     return;
 
   }
@@ -1034,6 +1351,7 @@ async function submitApplication(
       "공연 전체 일정 안에서 날짜를 선택해주세요."
     );
 
+
     return;
 
   }
@@ -1041,10 +1359,15 @@ async function submitApplication(
 
   const confirmed =
     confirm(
+
       `${show.title}\n\n` +
+
       `${fmt(date)} ${time}\n\n` +
+
       `이 일정으로 신청하시겠습니까?\n` +
+
       `제출 후에는 직접 수정할 수 없습니다.`
+
     );
 
 
@@ -1052,10 +1375,13 @@ async function submitApplication(
     return;
 
 
-  const {error} =
+  const {
+    error
+  } =
     await db.rpc(
       "submit_application",
       {
+
         participant_id:
           currentPerson.id,
 
@@ -1070,18 +1396,26 @@ async function submitApplication(
 
         preferred_time:
           time
+
       }
     );
 
 
   if(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     alert(
+
       "신청을 저장하지 못했습니다.\n" +
+
       error.message
+
     );
+
 
     return;
 
@@ -1115,6 +1449,7 @@ function renderApplications(){
         </td>
       </tr>`;
 
+
     return;
 
   }
@@ -1124,37 +1459,55 @@ function renderApplications(){
     applications.map(
       app => `
 
-        <tr class="${
-          app.status === "마감"
-            ? "reapply"
-            : ""
-        }">
+        <tr
+          class="${
+            app.status === "마감"
+              ? "reapply"
+              : ""
+          }">
+
 
           <td>
+
             ${
               app.performance_title ||
               app.title ||
               "-"
             }
+
           </td>
 
-          <td>
-            ${app.venue || "-"}
-          </td>
 
           <td>
+
+            ${
+              app.venue ||
+              "-"
+            }
+
+          </td>
+
+
+          <td>
+
             ${fmt(
               app.preferred_date
             )}
+
 
             ${
               app.preferred_time
                 ? String(
                     app.preferred_time
-                  ).slice(0,5)
+                  ).slice(
+                    0,
+                    5
+                  )
                 : ""
             }
+
           </td>
+
 
           <td>
 
@@ -1165,26 +1518,32 @@ function renderApplications(){
                 )
               }">
 
+
               ${
                 statusLabel(
                   app.status
                 )
               }
 
+
             </span>
 
           </td>
 
+
           <td>
+
             ${
               app.admin_note ||
               "-"
             }
+
           </td>
 
         </tr>
 
       `
+
     ).join("");
 
 }
@@ -1196,17 +1555,34 @@ function renderApplications(){
 
 function logout(){
 
-  currentPerson = null;
-  currentPin = "";
-  performances = [];
-  applications = [];
+  currentPerson =
+    null;
 
-  pinInput.value = "";
-  personSelect.value = "";
+
+  currentPin =
+    "";
+
+
+  performances =
+    [];
+
+
+  applications =
+    [];
+
+
+  pinInput.value =
+    "";
+
+
+  personSelect.value =
+    "";
+
 
   memberArea.classList.add(
     "hidden"
   );
+
 
   loginBox.classList.remove(
     "hidden"
@@ -1216,95 +1592,234 @@ function logout(){
 
 
 /* =====================================================
-   관리자 신청 현황
+   관리자 정렬
 ===================================================== */
 
-async function loadAdminApplications(){
+function sortAdminApplications(
+  items
+){
 
-  adminRows.innerHTML =
-    `<tr>
-      <td colspan="8" class="loading">
-        신청 현황을 불러오는 중입니다.
-      </td>
-    </tr>`;
-
-
-  const {data,error} =
-    await db.rpc(
-      "get_admin_applications"
-    );
-
-
-  if(error){
-
-    console.error(error);
-
-    adminRows.innerHTML =
-      `<tr>
-        <td colspan="8">
-          신청 현황을 불러오지 못했습니다.
-        </td>
-      </tr>`;
-
-    return false;
-
-  }
+  const sorted =
+    [...items];
 
 
   if(
-    !data ||
-    data.length === 0
+    adminSort.value ===
+      "date_asc"
   ){
 
-    adminRows.innerHTML =
-      `<tr>
-        <td colspan="8">
-          신청 내역이 없습니다.
-        </td>
-      </tr>`;
+    sorted.sort(
+      (a,b) => {
 
-    return true;
+        const aKey =
+          `${a.preferred_date || ""} ${a.preferred_time || ""}`;
+
+
+        const bKey =
+          `${b.preferred_date || ""} ${b.preferred_time || ""}`;
+
+
+        return aKey.localeCompare(
+          bKey
+        );
+
+      }
+    );
 
   }
 
 
+  else if(
+    adminSort.value ===
+      "name_asc"
+  ){
+
+    sorted.sort(
+      (a,b) =>
+
+        String(
+          a.participant_name ||
+          ""
+        ).localeCompare(
+
+          String(
+            b.participant_name ||
+            ""
+          ),
+
+          "ko"
+
+        )
+    );
+
+  }
+
+
+  else if(
+    adminSort.value ===
+      "status"
+  ){
+
+    const order = {
+      "신청중":0,
+      "신청완료":1,
+      "마감":2
+    };
+
+
+    sorted.sort(
+      (a,b) =>
+
+        (
+          order[a.status] ??
+          99
+        ) -
+
+        (
+          order[b.status] ??
+          99
+        )
+    );
+
+  }
+
+
+  else{
+
+    sorted.sort(
+      (a,b) =>
+
+        String(
+          b.created_at ||
+          ""
+        ).localeCompare(
+
+          String(
+            a.created_at ||
+            ""
+          )
+
+        )
+    );
+
+  }
+
+
+  return sorted;
+
+}
+
+
+/* =====================================================
+   관리자 표 표시
+===================================================== */
+
+function renderAdminApplications(){
+
+  if(
+    !adminApplications ||
+    adminApplications.length === 0
+  ){
+
+    adminRows.innerHTML = `
+
+      <tr>
+
+        <td colspan="8">
+
+          신청 내역이 없습니다.
+
+        </td>
+
+      </tr>
+
+    `;
+
+
+    return;
+
+  }
+
+
+  const rows =
+    sortAdminApplications(
+      adminApplications
+    );
+
+
   adminRows.innerHTML =
-    data.map(
+    rows.map(
       item => `
 
         <tr>
 
-          <td>
-            ${item.participant_name}
-          </td>
 
           <td>
-            ${item.participant_role}
+
+            ${
+              item.participant_name ||
+              "-"
+            }
+
           </td>
 
-          <td>
-            ${item.performance_title}
-          </td>
 
           <td>
-            ${item.venue}
+
+            ${
+              item.participant_role ||
+              "-"
+            }
+
           </td>
 
+
           <td>
-            ${item.preferred_date}
+
+            ${
+              item.performance_title ||
+              "-"
+            }
+
+          </td>
+
+
+          <td>
+
+            ${
+              item.venue ||
+              "-"
+            }
+
+          </td>
+
+
+          <td>
+
+            ${
+              item.preferred_date ||
+              "-"
+            }
+
             ${
               String(
                 item.preferred_time ||
                 ""
-              ).slice(0,5)
+              ).slice(
+                0,
+                5
+              )
             }
+
           </td>
+
 
           <td>
 
             <select
               class="admin-status"
               id="status-${item.id}">
+
 
               <option
                 value="신청중"
@@ -1314,8 +1829,11 @@ async function loadAdminApplications(){
                     ? "selected"
                     : ""
                 }>
+
                 신청중
+
               </option>
+
 
               <option
                 value="신청완료"
@@ -1325,8 +1843,11 @@ async function loadAdminApplications(){
                     ? "selected"
                     : ""
                 }>
+
                 신청완료
+
               </option>
+
 
               <option
                 value="마감"
@@ -1336,12 +1857,16 @@ async function loadAdminApplications(){
                     ? "selected"
                     : ""
                 }>
+
                 마감 · 다른 일정 선택 필요
+
               </option>
+
 
             </select>
 
           </td>
+
 
           <td>
 
@@ -1350,12 +1875,18 @@ async function loadAdminApplications(){
               class="admin-note"
               type="text"
               value="${
-                item.admin_note ||
-                ""
+                String(
+                  item.admin_note ||
+                  ""
+                ).replaceAll(
+                  '"',
+                  '&quot;'
+                )
               }"
               placeholder="안내 내용">
 
           </td>
+
 
           <td>
 
@@ -1369,13 +1900,262 @@ async function loadAdminApplications(){
 
           </td>
 
+
         </tr>
 
       `
+
     ).join("");
+
+}
+
+
+/* =====================================================
+   관리자 신청현황 불러오기
+===================================================== */
+
+async function loadAdminApplications(){
+
+  adminRows.innerHTML = `
+
+    <tr>
+
+      <td
+        colspan="8"
+        class="loading">
+
+        신청 현황을 불러오는 중입니다.
+
+      </td>
+
+    </tr>
+
+  `;
+
+
+  const {
+    data,
+    error
+  } =
+    await db.rpc(
+      "get_admin_applications"
+    );
+
+
+  if(error){
+
+    console.error(
+      error
+    );
+
+
+    adminRows.innerHTML = `
+
+      <tr>
+
+        <td colspan="8">
+
+          신청 현황을 불러오지 못했습니다.
+
+        </td>
+
+      </tr>
+
+    `;
+
+
+    return false;
+
+  }
+
+
+  adminApplications =
+    data || [];
+
+
+  renderAdminApplications();
 
 
   return true;
+
+}
+
+
+/* =====================================================
+   CSV
+===================================================== */
+
+function csvEscape(value){
+
+  const text =
+    String(
+      value ?? ""
+    );
+
+
+  return `"${
+
+    text.replaceAll(
+      '"',
+      '""'
+    )
+
+  }"`;
+
+}
+
+
+function downloadAdminCsv(){
+
+  if(
+    !adminApplications ||
+    adminApplications.length === 0
+  ){
+
+    alert(
+      "다운로드할 신청 내역이 없습니다."
+    );
+
+
+    return;
+
+  }
+
+
+  const rows =
+    sortAdminApplications(
+      adminApplications
+    );
+
+
+  const header = [
+
+    "신청자",
+
+    "구분",
+
+    "공연명",
+
+    "공연장",
+
+    "희망 날짜",
+
+    "희망 시간",
+
+    "상태",
+
+    "관리자 안내"
+
+  ];
+
+
+  const csvRows = [
+
+    header
+      .map(
+        csvEscape
+      )
+      .join(","),
+
+
+    ...rows.map(
+      item => [
+
+        item.participant_name,
+
+        item.participant_role,
+
+        item.performance_title,
+
+        item.venue,
+
+        item.preferred_date,
+
+        String(
+          item.preferred_time ||
+          ""
+        ).slice(
+          0,
+          5
+        ),
+
+        item.status,
+
+        item.admin_note ||
+        ""
+
+      ]
+      .map(
+        csvEscape
+      )
+      .join(",")
+
+    )
+
+  ];
+
+
+  const blob =
+    new Blob(
+
+      [
+        "\uFEFF" +
+        csvRows.join(
+          "\r\n"
+        )
+      ],
+
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  const today =
+    new Date()
+      .toISOString()
+      .slice(
+        0,
+        10
+      );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    `공연관람신청_${today}.csv`;
+
+
+  document.body.appendChild(
+    a
+  );
+
+
+  a.click();
+
+
+  a.remove();
+
+
+  URL.revokeObjectURL(
+    url
+  );
 
 }
 
@@ -1400,10 +2180,15 @@ async function updateAdminApplication(
     ).value;
 
 
-  const {error} =
+  const {
+    error
+  } =
     await db.rpc(
+
       "update_application_status",
+
       {
+
         application_id:
           id,
 
@@ -1411,18 +2196,25 @@ async function updateAdminApplication(
           status,
 
         new_admin_note:
-          adminNote || null
+          adminNote ||
+          null
+
       }
+
     );
 
 
   if(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     alert(
       "저장하지 못했습니다."
     );
+
 
     return;
 
@@ -1454,9 +2246,13 @@ pinInput.addEventListener(
   event => {
 
     if(
-      event.key === "Enter"
-    )
+      event.key ===
+      "Enter"
+    ){
+
       login();
+
+    }
 
   }
 );
@@ -1477,17 +2273,21 @@ function openAdminModal(){
   adminLoginError.textContent =
     "";
 
+
   adminPassword.value =
     "";
+
 
   adminModal.classList.remove(
     "hidden"
   );
 
+
   adminModal.setAttribute(
     "aria-hidden",
     "false"
   );
+
 
   setTimeout(
     () =>
@@ -1503,6 +2303,7 @@ function closeAdminModal(){
   adminModal.classList.add(
     "hidden"
   );
+
 
   adminModal.setAttribute(
     "aria-hidden",
@@ -1522,13 +2323,16 @@ async function showAdminArea(){
     "hidden"
   );
 
+
   memberArea.classList.add(
     "hidden"
   );
 
+
   adminArea.classList.remove(
     "hidden"
   );
+
 
   adminLoginBtn.classList.add(
     "hidden"
@@ -1539,19 +2343,24 @@ async function showAdminArea(){
     await loadAdminApplications();
 
 
-  if(ok === false){
+  if(
+    ok === false
+  ){
 
     adminArea.classList.add(
       "hidden"
     );
 
+
     loginBox.classList.remove(
       "hidden"
     );
 
+
     adminLoginBtn.classList.remove(
       "hidden"
     );
+
 
     return false;
 
@@ -1572,6 +2381,7 @@ async function adminSignIn(){
   const email =
     adminEmail.value.trim();
 
+
   const password =
     adminPassword.value;
 
@@ -1584,6 +2394,7 @@ async function adminSignIn(){
     adminLoginError.textContent =
       "이메일과 비밀번호를 입력해주세요.";
 
+
     return;
 
   }
@@ -1592,14 +2403,18 @@ async function adminSignIn(){
   adminSubmitBtn.disabled =
     true;
 
+
   adminSubmitBtn.textContent =
     "로그인 중...";
+
 
   adminLoginError.textContent =
     "";
 
 
-  const {error} =
+  const {
+    error
+  } =
     await db.auth.signInWithPassword(
       {
         email,
@@ -1611,6 +2426,7 @@ async function adminSignIn(){
   adminSubmitBtn.disabled =
     false;
 
+
   adminSubmitBtn.textContent =
     "로그인";
 
@@ -1619,6 +2435,7 @@ async function adminSignIn(){
 
     adminLoginError.textContent =
       "관리자 로그인에 실패했습니다.";
+
 
     return;
 
@@ -1632,9 +2449,12 @@ async function adminSignIn(){
     await showAdminArea();
 
 
-  if(ok === false){
+  if(
+    ok === false
+  ){
 
     await db.auth.signOut();
+
 
     alert(
       "관리자 권한을 확인할 수 없습니다."
@@ -1646,7 +2466,7 @@ async function adminSignIn(){
 
 
 /* =====================================================
-   관리자 버튼 연결
+   관리자 버튼
 ===================================================== */
 
 adminLoginBtn.addEventListener(
@@ -1672,9 +2492,13 @@ adminPassword.addEventListener(
   event => {
 
     if(
-      event.key === "Enter"
-    )
+      event.key ===
+      "Enter"
+    ){
+
       adminSignIn();
+
+    }
 
   }
 );
@@ -1685,9 +2509,13 @@ adminEmail.addEventListener(
   event => {
 
     if(
-      event.key === "Enter"
-    )
+      event.key ===
+      "Enter"
+    ){
+
       adminPassword.focus();
+
+    }
 
   }
 );
@@ -1700,10 +2528,29 @@ adminModal.addEventListener(
     if(
       event.target ===
       adminModal
-    )
+    ){
+
       closeAdminModal();
 
+    }
+
   }
+);
+
+
+/* =====================================================
+   관리자 정렬 + CSV
+===================================================== */
+
+adminSort.addEventListener(
+  "change",
+  renderAdminApplications
+);
+
+
+downloadCsvBtn.addEventListener(
+  "click",
+  downloadAdminCsv
 );
 
 
@@ -1717,17 +2564,21 @@ adminLogoutBtn.addEventListener(
 
     await db.auth.signOut();
 
+
     adminArea.classList.add(
       "hidden"
     );
+
 
     memberArea.classList.add(
       "hidden"
     );
 
+
     loginBox.classList.remove(
       "hidden"
     );
+
 
     adminLoginBtn.classList.remove(
       "hidden"
@@ -1746,7 +2597,9 @@ async function startApp(){
   await loadPeople();
 
 
-  const {data} =
+  const {
+    data
+  } =
     await db.auth.getSession();
 
 
