@@ -127,7 +127,11 @@
 <div class="wrap">
 
   <section class="card">
-
+<div style="text-align:right;margin-bottom:10px">
+  <button id="adminLoginBtn" class="ghost smallbtn">
+    관리자 로그인
+  </button>
+</div>
     <h1>공연 관람 신청</h1>
     <div class="sub">
       아르코예술극장 · 대학로예술극장
@@ -347,7 +351,17 @@ const myRows =
 
 const loginMessage =
   document.getElementById("loginMessage");
+const adminLoginBtn =
+  document.getElementById("adminLoginBtn");
 
+const adminArea =
+  document.getElementById("adminArea");
+
+const adminRows =
+  document.getElementById("adminRows");
+
+const adminLogoutBtn =
+  document.getElementById("adminLogoutBtn");
 
 /* =====================================================
    공통
@@ -841,7 +855,102 @@ function logout(){
 
 }
 
+async function loadAdminApplications() {
+  adminRows.innerHTML = `
+    <tr>
+      <td colspan="8" class="loading">
+        신청 현황을 불러오는 중입니다.
+      </td>
+    </tr>
+  `;
 
+  const { data, error } =
+    await db.rpc("get_admin_applications");
+
+  if (error) {
+    console.error(error);
+
+    adminRows.innerHTML = `
+      <tr>
+        <td colspan="8">
+          신청 현황을 불러오지 못했습니다.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    adminRows.innerHTML = `
+      <tr>
+        <td colspan="8">
+          신청 내역이 없습니다.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+  adminRows.innerHTML = data.map(item => `
+    <tr>
+      <td>${item.participant_name}</td>
+      <td>${item.participant_role}</td>
+      <td>${item.performance_title}</td>
+      <td>${item.venue}</td>
+      <td>
+        ${item.preferred_date}
+        ${String(item.preferred_time || "").slice(0, 5)}
+      </td>
+      <td>
+        <select id="status-${item.id}">
+          <option value="신청중" ${item.status === "신청중" ? "selected" : ""}>신청중</option>
+          <option value="신청완료" ${item.status === "신청완료" ? "selected" : ""}>신청완료</option>
+          <option value="마감" ${item.status === "마감" ? "selected" : ""}>마감 · 다른 일정 선택 필요</option>
+        </select>
+      </td>
+      <td>
+        <input
+          id="note-${item.id}"
+          type="text"
+          value="${item.admin_note || ""}"
+          placeholder="안내 내용"
+        >
+      </td>
+      <td>
+        <button
+          class="smallbtn"
+          onclick="updateAdminApplication(${item.id})"
+        >
+          저장
+        </button>
+      </td>
+    </tr>
+  `).join("");
+}
+async function updateAdminApplication(id) {
+  const status =
+    document.getElementById(`status-${id}`).value;
+
+  const adminNote =
+    document.getElementById(`note-${id}`).value;
+
+  const { error } = await db.rpc(
+    "update_application_status",
+    {
+      application_id: id,
+      new_status: status,
+      new_admin_note: adminNote || null
+    }
+  );
+
+  if (error) {
+    console.error(error);
+    alert("저장하지 못했습니다.");
+    return;
+  }
+
+  alert("저장했습니다.");
+  await loadAdminApplications();
+}
 /* =====================================================
    버튼
 ===================================================== */
@@ -865,8 +974,38 @@ logoutBtn.addEventListener(
   "click",
   logout
 );
+adminLoginBtn.addEventListener("click", async () => {
+  const email = prompt("관리자 이메일을 입력하세요.");
+  if (!email) return;
 
+  const password = prompt("관리자 비밀번호를 입력하세요.");
+  if (!password) return;
 
+  const { error } = await db.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    alert("관리자 로그인에 실패했습니다.");
+    return;
+  }
+
+  loginBox.classList.add("hidden");
+  memberArea.classList.add("hidden");
+  adminArea.classList.remove("hidden");
+await loadAdminApplications();
+  alert("관리자로 로그인했습니다.");
+});
+adminLogoutBtn.addEventListener("click", async () => {
+  await db.auth.signOut();
+
+  adminArea.classList.add("hidden");
+  memberArea.classList.add("hidden");
+  loginBox.classList.remove("hidden");
+
+  alert("관리자에서 로그아웃했습니다.");
+});
 /* =====================================================
    시작
 ===================================================== */
