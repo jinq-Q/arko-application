@@ -242,7 +242,46 @@
       </div>
 
     </div>
+<!-- 관리자 화면 -->
+<div id="adminArea" class="hidden">
 
+  <div class="toolbar">
+    <h2>관리자 · 신청 현황</h2>
+    <button id="adminLogoutBtn" class="ghost smallbtn">
+      관리자 로그아웃
+    </button>
+  </div>
+
+  <div class="notice">
+    전체 신청자의 공연 관람 신청 현황입니다.
+  </div>
+
+  <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>신청자</th>
+          <th>구분</th>
+          <th>공연명</th>
+          <th>공연장</th>
+          <th>희망 관람일시</th>
+          <th>상태</th>
+          <th>관리자 안내</th>
+          <th>관리</th>
+        </tr>
+      </thead>
+
+      <tbody id="adminRows">
+        <tr>
+          <td colspan="8" class="loading">
+            신청 현황을 불러오는 중입니다.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
   </section>
 
 </div>
