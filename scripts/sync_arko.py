@@ -125,7 +125,8 @@ result = requests.post(
     json=rows,
     timeout=30,
 )
-
+if not result.ok:
+    print("SUPABASE ERROR:", result.status_code, result.text)
 result.raise_for_status()
 
 print(f"ARKO 공연 {len(rows)}건 동기화 완료")
