@@ -355,7 +355,7 @@ async function loadPeople(){
 
   const {data,error} =
     await db.rpc("get_participant_names");
-
+console.log("참가자 데이터:", data, "오류:", error);
   if(error){
 
     console.error(error);
