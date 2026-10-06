@@ -385,63 +385,101 @@
     </div>
 
     <!-- 관리자 화면 -->
-    <div id="adminArea" class="hidden">
+<div id="adminArea" class="hidden">
 
-      <div class="toolbar">
+  <div class="toolbar">
 
-        <h2>관리자 · 신청 현황</h2>
+    <h2>관리자 · 신청 현황</h2>
 
-        <button
-          id="adminLogoutBtn"
-          class="ghost smallbtn">
-          관리자 로그아웃
-        </button>
+    <button
+      id="adminLogoutBtn"
+      class="ghost smallbtn">
+      관리자 로그아웃
+    </button>
 
-      </div>
+  </div>
 
-      <div class="notice">
-        전체 신청자의 공연 관람 신청 현황입니다.
-      </div>
+  <div class="notice">
+    전체 신청자의 공연 관람 신청 현황입니다.
+  </div>
 
-      <!-- 매진 회차 관리 -->
-      <div class="admin-subsection">
 
-        <div class="toolbar">
-          <h3>매진 회차 안내 관리</h3>
-        </div>
+  <!-- 신청 현황 -->
+  <div class="toolbar">
+    <h3>신청 현황</h3>
+  </div>
 
-        <div class="notice">
-          공연별 매진 회차를 자유롭게 입력하세요.
-          예:
-          <strong>10/12 19:30 매진 · 10/13 15:00 매진</strong>
-        </div>
+  <div class="admin-table-wrap">
 
-        <div class="admin-table-wrap">
+    <table class="admin-table">
 
-          <table class="admin-table admin-soldout-table">
+      <thead>
+        <tr>
+          <th>신청자</th>
+          <th>구분</th>
+          <th>공연명</th>
+          <th>공연장</th>
+          <th>희망 관람일시</th>
+          <th>상태</th>
+          <th>관리자 안내</th>
+          <th>관리</th>
+        </tr>
+      </thead>
 
-            <thead>
-              <tr>
-                <th>공연명</th>
-                <th>공연장</th>
-                <th>매진 회차 안내</th>
-                <th>관리</th>
-              </tr>
-            </thead>
+      <tbody id="adminRows">
+        <tr>
+          <td colspan="8" class="loading">
+            신청 현황을 불러오는 중입니다.
+          </td>
+        </tr>
+      </tbody>
 
-            <tbody id="adminSoldoutRows">
-              <tr>
-                <td colspan="4" class="loading">
-                  공연 정보를 불러오는 중입니다.
-                </td>
-              </tr>
-            </tbody>
+    </table>
 
-          </table>
+  </div>
 
-        </div>
 
-      </div>
+  <!-- 매진 회차 관리 -->
+  <div class="admin-subsection">
+
+    <div class="toolbar">
+      <h3>매진 회차 안내 관리</h3>
+    </div>
+
+    <div class="notice">
+      공연별 매진 회차를 자유롭게 입력하세요.
+      예:
+      <strong>10/12 19:30 매진 · 10/13 15:00 매진</strong>
+    </div>
+
+    <div class="admin-table-wrap">
+
+      <table class="admin-table admin-soldout-table">
+
+        <thead>
+          <tr>
+            <th>공연명</th>
+            <th>공연장</th>
+            <th>매진 회차 안내</th>
+            <th>관리</th>
+          </tr>
+        </thead>
+
+        <tbody id="adminSoldoutRows">
+          <tr>
+            <td colspan="4" class="loading">
+              공연 정보를 불러오는 중입니다.
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
 
       <!-- 신청 현황 -->
       <div class="toolbar">
